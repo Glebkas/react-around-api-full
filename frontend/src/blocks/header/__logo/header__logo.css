@@ -1,0 +1,22 @@
+.header__logo {
+  width: 173px;
+  height: 33px;
+  background-image: url(../../../images/Aroundtheuslogo.png);
+  margin: 45px 0 41px 0;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+@media screen and (max-width: 880px) {
+  .header__logo {
+    margin-left: 27px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .header__logo {
+    width: 128px;
+    height: 24px;
+    margin: 28px 0 32px 27px;
+  }
+}

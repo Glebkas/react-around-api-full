@@ -1,0 +1,9 @@
+.card {
+  background-color: white;
+  border-radius: 10px;
+  position: relative;
+  height: 368.4px;
+  opacity: 1;
+  transition: opacity 0.7s;
+}
+

@@ -1,0 +1,25 @@
+.form__submit_disabled {
+  pointer-events: none;
+  opacity: 0.2;
+  color: black;
+  border: 1px solid #000000;
+  border-radius: 2px;
+  cursor: default;
+  background-color: white;
+  margin-top: 48px;
+  max-width: 358px;
+  width: 100%;
+  box-shadow: none;
+  min-height: 50.15px;
+  font-size: 1.125rem;
+  line-height: 1.2;
+  text-align: center;
+}
+
+@media screen and (max-width: 520px) {
+  .form__submit {
+    font-size: 0.875rem;
+    margin-top: 46px;
+    min-height: 46px;
+  }
+}

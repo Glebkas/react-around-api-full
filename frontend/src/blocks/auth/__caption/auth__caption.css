@@ -1,0 +1,15 @@
+.auth__caption {
+  color: white;
+  font-size: 14px;
+  margin: 15px auto 0 auto;
+  font-weight: 400;
+  font-family: "inter";
+  text-decoration: unset;
+}
+
+@media screen and (max-width: 420px) {
+  .auth__caption {
+    font-size: 12px;
+    margin: 20px auto 0 auto;
+  }
+}

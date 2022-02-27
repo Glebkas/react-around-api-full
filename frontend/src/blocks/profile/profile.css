@@ -1,0 +1,12 @@
+.profile {
+  display: flex;
+  margin: 36.25px 0 46.25px 0;
+  justify-content: space-between;
+}
+
+@media screen and (max-width: 768px) {
+  .profile {
+    flex-direction: column;
+    margin: 38.25px 0 36px 0;
+  }
+}

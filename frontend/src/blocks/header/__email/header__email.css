@@ -1,0 +1,14 @@
+.header__email {
+  color: #ffffff;
+  font-family: "inter";
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.2;
+  margin: 0 24px 0 0;
+}
+
+@media screen and (max-width: 572px) {
+  .header__email {
+    display: none;
+  }
+}
