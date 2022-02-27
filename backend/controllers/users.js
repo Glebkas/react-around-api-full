@@ -42,6 +42,34 @@ const getUserById = (req, res) => {
     });
 };
 
+const getUserMe = (req, res) => {
+  const { userId } = req.params;
+  User.findById(userId)
+    .orFail(() => {
+      const error = new Error(errorResponseMessages.noUserIdMatch);
+      error.statusCode = errorResponse.notFoundErrorCode;
+      throw error;
+    })
+    .then((user) => {
+      res.send({ data: user });
+    })
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        res
+          .status(errorResponse.badRequestErrorCode)
+          .send({ message: errorResponseMessages.invalidUserId });
+      } else if (err.statusCode === errorResponse.notFoundErrorCode) {
+        res
+          .status(errorResponse.notFoundErrorCode)
+          .send({ message: err.message });
+      } else {
+        res
+          .status(errorResponse.internalServerErrorCode)
+          .send({ message: errorResponseMessages.serverError });
+      }
+    });
+};
+
 const createNewUser = (req, res) => {
   const {
     email, password, name, about, avatar,
@@ -164,4 +192,5 @@ module.exports = {
   updateUserAvatar,
   updateUserInfo,
   login,
+  getUserMe,
 };
