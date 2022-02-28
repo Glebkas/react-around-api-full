@@ -2,7 +2,9 @@ const express = require('express');
 const helmet = require('helmet');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const { celebrate, Joi, errors, Segments } = require('celebrate');
+const {
+  celebrate, Joi, errors, Segments,
+} = require('celebrate');
 const rateLimit = require('express-rate-limit');
 const cors = require('cors');
 
@@ -17,7 +19,6 @@ require('dotenv').config();
 const { PORT = 3000 } = process.env;
 const app = express();
 
-app.options('*', cors());
 app.use(cors());
 
 const limiter = rateLimit({
