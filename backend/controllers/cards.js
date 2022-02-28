@@ -1,121 +1,83 @@
 const Card = require('../models/card');
-const { errorResponseMessages, errorResponse } = require('../utils/constants');
+const AuthorizationError = require('../errors/authorization-error');
+const NotFoundError = require('../errors/not-found-error');
 
-const getAllCards = (req, res) => {
+const getAllCards = (req, res, next) => {
   Card.find({})
-    .then((cards) => res.send({ data: cards }))
-    .catch(() => res
-      .status(errorResponse.internalServerErrorCode)
-      .send({ message: errorResponseMessages.serverError }));
+    .populate('owner')
+    .populate('likes')
+    .then((cards) => {
+      res.send({ data: cards });
+    })
+    .catch(next);
 };
 
-const createNewCard = (req, res) => {
+const createNewCard = (req, res, next) => {
   const { name, link } = req.body;
+
   Card.create({ name, link, owner: req.user._id })
-    .then((card) => res.send({ data: card }))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        res
-          .status(errorResponse.badRequestErrorCode)
-          .send({ message: errorResponseMessages.invalidCard });
-      } else {
-        res
-          .status(errorResponse.internalServerErrorCode)
-          .send({ message: errorResponseMessages.serverError });
-      }
-    });
-};
-
-const deleteCardbyId = (req, res) => {
-  const { cardId } = req.params;
-  Card.findByIdAndRemove(cardId)
-    .orFail(() => {
-      const error = new Error(errorResponseMessages.noCardIdMatch);
-      error.statusCode = errorResponse.notFoundErrorCode;
-      throw error;
-    })
     .then((card) => {
-      res.send({ data: card });
+      Card.populate(card, { path: 'owner' })
+        .then(() => {
+          res.send({ data: card });
+        });
     })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        res
-          .status(errorResponse.badRequestErrorCode)
-          .send({ message: errorResponseMessages.invalidCardId });
-      } else if (err.statusCode === errorResponse.notFoundErrorCode) {
-        res
-          .status(errorResponse.notFoundErrorCode)
-          .send({ message: err.message });
-      } else {
-        res
-          .status(errorResponse.internalServerErrorCode)
-          .send({ message: errorResponseMessages.serverError });
-      }
-    });
+    .catch(next);
 };
 
-const likeCardbyId = (req, res) => {
+const deleteCardbyId = (req, res, next) => {
   const { cardId } = req.params;
+  const userId = req.user._id;
+
+  Card.findById(cardId)
+    .orFail(new NotFoundError())
+    .then((card) => {
+      if (card.owner._id.toString() !== userId) {
+        throw new AuthorizationError();
+      }
+
+      Card.findByIdAndDelete(cardId)
+        .then(() => {
+          res.send({ message: 'Card removed' });
+        });
+    })
+    .catch(next);
+};
+
+const likeCardbyId = (req, res, next) => {
+  const { cardId } = req.params;
+  const userId = req.user._id;
+
   Card.findByIdAndUpdate(
     cardId,
-    { $addToSet: { likes: req.user._id } },
+    { $addToSet: { likes: userId } },
     { new: true },
   )
-    .orFail(() => {
-      const error = new Error(errorResponseMessages.noCardIdMatch);
-      error.statusCode = errorResponse.notFoundErrorCode;
-      throw error;
-    })
+    .orFail(new NotFoundError())
+    .populate('owner')
+    .populate('likes')
     .then((card) => {
       res.send({ data: card });
     })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        res
-          .status(errorResponse.badRequestErrorCode)
-          .send({ message: errorResponseMessages.invalidCardId });
-      } else if (err.statusCode === errorResponse.notFoundErrorCode) {
-        res
-          .status(errorResponse.notFoundErrorCode)
-          .send({ message: err.message });
-      } else {
-        res
-          .status(errorResponse.internalServerErrorCode)
-          .send({ message: errorResponseMessages.serverError });
-      }
-    });
+    .catch(next);
 };
 
-const unlikeCardbyId = (req, res) => {
+const unlikeCardbyId = (req, res, next) => {
   const { cardId } = req.params;
+  const userId = req.user._id;
+
   Card.findByIdAndUpdate(
     cardId,
-    { $pull: { likes: req.user._id } },
+    { $pull: { likes: userId } },
     { new: true },
   )
-    .orFail(() => {
-      const error = new Error(errorResponseMessages.noCardIdMatch);
-      error.statusCode = errorResponse.notFoundErrorCode;
-      throw error;
-    })
+    .orFail(new NotFoundError())
+    .populate('owner')
+    .populate('likes')
     .then((card) => {
       res.send({ data: card });
     })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        res
-          .status(errorResponse.badRequestErrorCode)
-          .send({ message: errorResponseMessages.invalidCardId });
-      } else if (err.statusCode === errorResponse.notFoundErrorCode) {
-        res
-          .status(errorResponse.notFoundErrorCode)
-          .send({ message: err.message });
-      } else {
-        res
-          .status(errorResponse.internalServerErrorCode)
-          .send({ message: errorResponseMessages.serverError });
-      }
-    });
+    .catch(next);
 };
 
 module.exports = {
