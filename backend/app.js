@@ -69,4 +69,6 @@ app.get('*', (req, res) => {
 app.use(errorLogger);
 app.use(errors());
 
-app.listen(PORT, () => {});
+app.listen(PORT, () => {
+  console.log(`listen on port ${PORT}`);
+});
