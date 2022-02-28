@@ -19,7 +19,7 @@ require('dotenv').config();
 const { PORT = 3000 } = process.env;
 const app = express();
 app.use(cors({
-  origin: ['https://glebkas.students.nomoreparties.sbs', 'https://api.glebkas.students.nomoreparties.sbs/signin']
+  methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH'],
 }));
 
 const limiter = rateLimit({
