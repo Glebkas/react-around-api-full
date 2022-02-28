@@ -74,6 +74,7 @@ const api = new Api({
   baseUrl: "https://api.glebkas.students.nomoreparties.sbs",
   headers: {
     "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*"
   },
 });
 
