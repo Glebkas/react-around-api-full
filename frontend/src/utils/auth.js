@@ -1,4 +1,4 @@
-export let BASE_URL = "https://auth.nomoreparties.co";
+export let BASE_URL = "https://api.glebkas.students.nomoreparties.sbs";
 
 function checkResponse(res) {
   if (res.ok) {
