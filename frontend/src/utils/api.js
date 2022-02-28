@@ -15,7 +15,7 @@ class Api {
     const token = localStorage.getItem('token');
     return {
         ...this._headers,
-        Authorization: `Bearer ${token}`,
+        authorization: `Bearer ${token}`,
     }
 }
 
@@ -74,7 +74,6 @@ const api = new Api({
   baseUrl: "https://api.glebkas.students.nomoreparties.sbs",
   headers: {
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*"
   },
 });
 
