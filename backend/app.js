@@ -42,7 +42,7 @@ app.post(
       ),
     }),
   }),
-  createNewUser.apply,
+  createNewUser,
 );
 
 app.post(
