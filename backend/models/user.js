@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const isEmail = require('validator/lib/isEmail');
+const isURL = require('validator/lib/isURL');
 const bcrypt = require('bcryptjs');
+const AuthorizationError = require('../errors/authorization-error');
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -28,17 +30,16 @@ const userSchema = new mongoose.Schema({
     type: String,
     minlength: 2,
     maxlength: 30,
-    default: 'Exporter',
+    default: 'Explorer',
   },
   avatar: {
     type: String,
-    default: 'https://pictures.s3.yandex.net/resources/avatar_1604080799.jpg',
+    default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
     validate: {
       validator(v) {
-        return /^https?:\/{2}(www\.)?[a-z\0-9]{1,}\.[a-z]{1,}(\/[a-z0-9._~:/?%#@!$&'[\]()*+,;=]*)?/gim.test(
-          v,
-        );
+        return isURL(v);
       },
+      message: 'Invalid url',
     },
   },
 });
@@ -47,12 +48,13 @@ userSchema.statics.findUserByCredentials = function findUserByCredentials(email,
   return this.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        return Promise.reject(new Error('Wrong email or password'));
+        throw new AuthorizationError();
       }
+
       return bcrypt.compare(password, user.password)
-        .then((matched) => {
-          if (!matched) {
-            return Promise.reject(new Error('Wrong email or password'));
+        .then((res) => {
+          if (!res) {
+            throw new AuthorizationError();
           }
           return user;
         });
