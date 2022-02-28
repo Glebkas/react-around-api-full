@@ -62,11 +62,13 @@ class Api {
   }
 }
 
+const token = localStorage.getItem("token");
+
 const api = new Api({
-  baseUrl: "https://around.nomoreparties.co/v1/group-11",
+  baseUrl: "https://api.glebkas.students.nomoreparties.sbs",
   headers: {
-    authorization: "34a96d6c-47dd-42d3-b220-f7d1e2e3c502",
     "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
   },
 });
 
