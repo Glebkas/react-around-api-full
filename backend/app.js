@@ -12,7 +12,7 @@ const users = require('./routes/users');
 const cards = require('./routes/cards');
 const { login, createNewUser } = require('./controllers/users');
 const { requestLogger, errorLogger } = require('./middleware/logger');
-// const auth = require('./middleware/auth');
+const auth = require('./middleware/auth');
 const error = require('./middleware/error');
 require('dotenv').config();
 
@@ -59,8 +59,8 @@ app.post(
   login,
 );
 
-app.use('/users', users);
-app.use('/cards', cards);
+app.use('/users', auth, users);
+app.use('/cards', auth, cards);
 
 app.use(helmet());
 
