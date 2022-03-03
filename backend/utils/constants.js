@@ -7,12 +7,14 @@ const errorResponseMessages = {
   serverError: 'An error has occured on the server',
   invalidCard: 'Invalid card',
   invalidCardId: 'Invalid card id',
-  noCardIdMatch: 'No card card found with matching id',
+  noCardIdMatch: 'No card found with matching id',
   noUserIdMatch: 'No user found with matching id',
   invalidUserId: 'Invalid user id',
   invalidUserData: 'Invalid user data',
   invalidUserProfile: 'Invalid user profile',
   invalidAvatarUrl: 'Invalid avatar url',
+  userAlreadyExistError: 'Email is already used',
+  unauthenticatedToDeleteError: 'you are unauthorized to delete this card',
 };
 const errorResponse = {
   badRequestErrorCode: 400,
@@ -20,4 +22,13 @@ const errorResponse = {
   internalServerErrorCode: 500,
 };
 
-module.exports = { errorResponseMessages, errorResponse, secretKey };
+const goodResponse = {
+  okCode: 200,
+};
+
+module.exports = {
+  errorResponseMessages,
+  goodResponse,
+  errorResponse,
+  secretKey,
+};

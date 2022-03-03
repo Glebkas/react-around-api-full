@@ -1,31 +1,50 @@
 const router = require('express').Router();
-const { celebrate, Joi, Segments } = require('celebrate');
+const { celebrate } = require('celebrate');
+const Joi = require('joi');
 
 const {
-  getAllUsers, getUserById, getUserMe, updateUserAvatar, updateUserInfo,
+  getAllUsers,
+  getUserById,
+  getUserMe,
+  updateUserAvatar,
+  updateUserInfo,
 } = require('../controllers/users');
 
-router.get('/users/me', getUserMe);
+router.get('/me', getUserMe);
 
-router.patch('/users/me', celebrate({
-  [Segments.BODY]: Joi.object().keys({
-    name: Joi.string().required().min(2).max(30),
-    about: Joi.string().required().min(2).max(30),
+router.patch(
+  '/me',
+  celebrate({
+    body: Joi.object().keys({
+      name: Joi.string().required().min(2).max(30),
+      about: Joi.string().required().min(2).max(30),
+    }),
   }),
-}), updateUserInfo);
+  updateUserInfo,
+);
 
-router.patch('/users/me/avatar', celebrate({
-  [Segments.BODY]: Joi.object().keys({
-    avatar: Joi.string().required().pattern(/^(http|https):\/\/[^ "]+$/),
+router.patch(
+  '/me/avatar',
+  celebrate({
+    body: Joi.object().keys({
+      avatar: Joi.string()
+        .required()
+        .pattern(/^(http|https):\/\/[^ "]+$/),
+    }),
   }),
-}), updateUserAvatar);
+  updateUserAvatar,
+);
 
-router.get('users/:id', celebrate({
-  [Segments.PARAMS]: Joi.object().keys({
-    id: Joi.string().hex().required().length(24),
+router.get(
+  '/:id',
+  celebrate({
+    body: Joi.object().keys({
+      id: Joi.string().hex().required().length(24),
+    }),
   }),
-}), getUserById);
+  getUserById,
+);
 
-router.get('/users', getAllUsers);
+router.get('/', getAllUsers);
 
 module.exports = router;
