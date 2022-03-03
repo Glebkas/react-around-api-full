@@ -72,7 +72,7 @@ class Api {
 }
 
 const api = new Api({
-    baseUrl: 'http://localhost:3000',
+    baseUrl: 'https://api.glebkas.students.nomoreparties.sbs',
     headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
