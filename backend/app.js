@@ -74,5 +74,4 @@ app.use(errors());
 app.use(error);
 
 app.listen(PORT, () => {
-  console.log(`listen on port ${PORT}`);
 });
