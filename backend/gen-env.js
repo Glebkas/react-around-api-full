@@ -9,6 +9,5 @@ const envConfiguration = `NODE_ENV=${NODE_ENV}\nJWT_SECRET=${JWT_SECRET}`;
 try {
   fs.writeFileSync('./.env', envConfiguration);
 } catch (error) {
-  // eslint-disable-next-line no-console
   console.log(error);
 }
