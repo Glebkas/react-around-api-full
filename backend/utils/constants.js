@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const { NODE_ENV, JWT_SECRET } = process.env;
-const secretKey = NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key';
+const secretKey = NODE_ENV === 'production' ? JWT_SECRET : 'secret-key';
 
 const errorResponseMessages = {
   serverError: 'An error has occured on the server',
