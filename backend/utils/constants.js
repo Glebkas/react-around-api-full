@@ -15,15 +15,21 @@ const errorResponseMessages = {
   invalidAvatarUrl: 'Invalid avatar url',
   userAlreadyExistError: 'Email is already used',
   unauthenticatedToDeleteError: 'you are unauthorized to delete this card',
+  unauthenticatedUser: 'Unauthorized user',
+  notFoundError: 'Requested resource not found',
 };
 const errorResponse = {
   badRequestErrorCode: 400,
   notFoundErrorCode: 404,
   internalServerErrorCode: 500,
+  conflictErrorCode: 409,
+  unauthenticatedErrorCode: 401,
+
 };
 
 const goodResponse = {
   okCode: 200,
+  okCreateCode: 201,
 };
 
 module.exports = {

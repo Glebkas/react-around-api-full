@@ -1,13 +1,13 @@
 const jwt = require('jsonwebtoken');
 const AuthorizationError = require('../errors/authorization-error');
-const { secretKey } = require('../utils/constants');
+const { secretKey, errorResponseMessages } = require('../utils/constants');
 
 const extractBearerToken = (header) => header.replace('Bearer ', '');
 
 const auth = (req, res, next) => {
   const { authorization } = req.headers;
   if (!authorization || !authorization.startsWith('Bearer ')) {
-    return next(new AuthorizationError());
+    return next(new AuthorizationError(errorResponseMessages.unauthenticatedUser));
   }
 
   const token = extractBearerToken(authorization);

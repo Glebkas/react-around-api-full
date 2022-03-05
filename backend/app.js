@@ -12,6 +12,7 @@ const users = require('./routes/users');
 const cards = require('./routes/cards');
 const { login, createNewUser } = require('./controllers/users');
 const { requestLogger, errorLogger } = require('./middleware/logger');
+const NotFoundError = require('./errors/not-found-error');
 const auth = require('./middleware/auth');
 const error = require('./middleware/error');
 require('dotenv').config();
@@ -64,14 +65,13 @@ app.use('/cards', auth, cards);
 
 app.use(helmet());
 
-app.get('*', (req, res) => {
-  res.status(404);
-  res.send({ message: 'Requested resource not found' });
-});
-
 app.use(errorLogger);
 app.use(errors());
 app.use(error);
+
+app.use('*', (req, res, next) => {
+  next(new NotFoundError('Not found error'));
+});
 
 app.listen(PORT, () => {
 });

@@ -22,7 +22,7 @@ const createNewCard = (req, res, next) => {
     .then((card) => {
       Card.populate(card, { path: 'owner' })
         .then(() => {
-          res.status(goodResponse.okCode).send({ data: card });
+          res.status(goodResponse.okCreateCode).send({ data: card });
         });
     })
     .catch((err) => {
