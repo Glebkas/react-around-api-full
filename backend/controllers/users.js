@@ -47,13 +47,16 @@ const createNewUser = (req, res, next) => {
       if (user) {
         throw new UserAlreadyExist(errorResponseMessages.userAlreadyExistError);
       }
-      bcrypt.hash(password, 10);
+      return bcrypt.hash(password, 10);
     })
     .then((hash) => User.create({
       email, password: hash, name, about, avatar,
     }))
     .then((user) => {
-      res.status(201).send({ data: user });
+      res.status(goodResponse.okCreateCode).send({
+        email: user.email,
+        _id: user._id,
+      });
     })
     .catch(next);
 };
