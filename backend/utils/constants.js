@@ -13,14 +13,17 @@ const errorResponseMessages = {
   invalidUserData: 'Invalid user data',
   invalidUserProfile: 'Invalid user profile',
   invalidAvatarUrl: 'Invalid avatar url',
+  invalidData: 'Invalid details provided',
   userAlreadyExistError: 'Email is already used',
   unauthenticatedToDeleteError: 'you are unauthorized to delete this card',
   unauthenticatedUser: 'Unauthorized user',
   notFoundError: 'Requested resource not found',
+  forbiddenDeleteCard: 'you can only delete your own cards',
 };
 const errorResponse = {
   badRequestErrorCode: 400,
   notFoundErrorCode: 404,
+  forbiddenErrorCode: 403,
   internalServerErrorCode: 500,
   conflictErrorCode: 409,
   unauthenticatedErrorCode: 401,
