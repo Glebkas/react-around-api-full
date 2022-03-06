@@ -1,6 +1,7 @@
 const Card = require('../models/card');
 const AuthorizationError = require('../errors/authorization-error');
 const NotFoundError = require('../errors/not-found-error');
+const ForbiddenError = require('../errors/bad-request-error');
 const BadRequestError = require('../errors/bad-request-error');
 
 const { errorResponseMessages, goodResponse } = require('../utils/constants');
@@ -27,7 +28,7 @@ const createNewCard = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError(errorResponseMessages.serverError));
+        next(new BadRequestError(errorResponseMessages.invalidData));
       }
       next(err);
     });
@@ -41,7 +42,7 @@ const deleteCardbyId = (req, res, next) => {
     .orFail(new NotFoundError(errorResponseMessages.noCardIdMatch))
     .then((card) => {
       if (card.owner._id.toString() !== userId) {
-        throw new AuthorizationError(errorResponseMessages.unauthenticatedToDeleteError);
+        throw new ForbiddenError(errorResponseMessages.forbiddenDeleteCard);
       }
 
       Card.findByIdAndDelete(cardId)
