@@ -1,7 +1,6 @@
 const Card = require('../models/card');
-const AuthorizationError = require('../errors/authorization-error');
 const NotFoundError = require('../errors/not-found-error');
-const ForbiddenError = require('../errors/bad-request-error');
+const ForbiddenError = require('../errors/forbidden-error');
 const BadRequestError = require('../errors/bad-request-error');
 
 const { errorResponseMessages, goodResponse } = require('../utils/constants');
