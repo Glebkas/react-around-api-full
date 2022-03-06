@@ -1,4 +1,4 @@
-# Around The U.S. Social Image Web App – React version + Node.js
+# Around The U.S. Social Image Web App – React + Node.js
 
 ## Table of contents
 
