@@ -53,7 +53,7 @@ const createNewUser = (req, res, next) => {
       email, password: hash, name, about, avatar,
     }))
     .then((user) => {
-      res.status(goodResponse.okCreateCode).send({ data: { email: user.email, id: user.id } });
+      res.status(goodResponse.okCreateCode).send({ data: { email: user.email, _id: user.id } });
     })
     .catch(next);
 };
